@@ -9,7 +9,7 @@ Config.MinimumItems = 2 -- Default: 2
 -- Maximum amount of vehicle parts you can gain
 Config.MaximumItems = 3 -- Default: 3
 -- Dispatch system to use
-Config.DispatchSystem = "ps-dispatch" -- Default: ps-dispatch
+Config.DispatchSystem = "ps-dispatch" -- Default: ps-dispatch - Supported: cd_dispatch, qs-dispatch, lb-tablet, core_dispatch, origen_police, rcore_dispatch
 -- Dispatch set up
 Config.Dispatch = {
     ["scrapping"] = {
