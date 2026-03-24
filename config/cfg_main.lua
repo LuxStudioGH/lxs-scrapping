@@ -27,6 +27,15 @@ Config.Dispatch = {
         }
     }
 }
+-- Vehicle Blip Config
+Config.Blip = {
+    Sprite = 402, -- Change the blip sprite (https://docs.fivem.net/docs/game-references/blips/)
+    Color = 3, -- Change the colour (https://docs.fivem.net/docs/game-references/blips/#blip-colors)
+    Scale = 0.8, -- Change the scale (Do I have to put a link here?)
+    ShortRange = false, -- Make blip only appear when nearby 
+    Label = "Vehicle Scrap", -- Vehicle label displayed on blip
+    Route = true -- Whether or not a mission line should be drawn to the blip
+}
 
 Config.InteractableModels = {
     "prop_rub_carwreck_10",
