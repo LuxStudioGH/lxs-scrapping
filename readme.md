@@ -1,6 +1,6 @@
 # LuxStudio Scrapping
 
-A modular, high-performance vehicle scrapping script for **Qbox** using **ox_lib**, **ox_target**, and **ox_inventory**.
+A modular, high-performance vehicle scrapping script for **qb-core/qbox** using **ox_lib**, **ox_target**, and **ox_inventory**.
 
 Players obtain contracts to locate abandoned car wrecks across San Andreas, harvest valuable parts via skill checks, and sell them to shady bob.
 
