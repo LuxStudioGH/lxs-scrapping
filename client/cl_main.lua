@@ -24,17 +24,19 @@ RegisterNetEvent("lxs-scrapping:receiveJob", function(data)
 
     for _, v in pairs(currentScrappingJobLocations) do
         local blip = AddBlipForCoord(v)
-        SetBlipSprite(blip, 431)
-        SetBlipColour(blip, 3)
-        SetBlipScale(blip, 0.8)
-        SetBlipAsShortRange(blip, false)
+        SetBlipSprite(blip, Config.Blip.Sprite)
+        SetBlipColour(blip, Config.Blip.Color)
+        SetBlipScale(blip, Config.Blip.Scale)
+        SetBlipAsShortRange(blip, Config.Blip.ShortRange)
         BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString("Vehicle Scrap")
+        AddTextComponentString(Config.Blip.Label)
         EndTextCommandSetBlipName(blip)
         table.insert(jobBlips, blip)
     end
 
-    if jobBlips[1] then SetBlipRoute(jobBlips[1], true) end
+    if Config.Blip.Route and jobBlips[1] then 
+        SetBlipRoute(jobBlips[1], true) 
+    end
     lib.notify({ title = 'Jobs Received', description = 'Drive to the closest car wreck!', type = 'success' })
 end)
 
