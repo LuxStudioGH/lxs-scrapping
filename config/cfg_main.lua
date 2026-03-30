@@ -66,8 +66,8 @@ Config.RareItems = {
 
 -- Main item pool
 Config.ScrappingItems = { -- Reward accepts "money", anything else is treated as an item. (E.G: black_money)
-    { item = "tyre",          price = 400,  reward = "money",        weight = 80, min = 1, max = 4 }, 
-    { item = "brakes",        price = 400,  reward = "money",        weight = 70, min = 1, max = 4 }, 
+    { item = "tyre",          price = 400,  reward = "black_money",  weight = 80, min = 1, max = 4 }, 
+    { item = "brakes",        price = 400,  reward = "black_money",  weight = 70, min = 1, max = 4 }, 
     { item = "headlights",    price = 500,  reward = "black_money",  weight = 60, min = 1, max = 2 },
     { item = "battery",       price = 500,  reward = "black_money",  weight = 60, min = 1, max = 1 },
     { item = "windscreen",    price = 600,  reward = "black_money",  weight = 50, min = 1, max = 1 },
