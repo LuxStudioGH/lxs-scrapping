@@ -21,3 +21,7 @@ server_scripts {
     'server/sv_utils.lua',
     'server/sv_*.lua'
 }
+
+escrow_ignore {
+    '**/*'
+}
