@@ -13,7 +13,6 @@ Ensure you have the following installed:
 - qbx_core (or qb-core)
 - ox_lib
 - ox_target
-- rpemotes (or rpemotes-reborn)
 
 ---
 

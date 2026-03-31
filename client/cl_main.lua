@@ -52,19 +52,28 @@ AddEventHandler("lxs-scrapping:CancelJob", function()
 end)
 
 AddEventHandler("lxs-scrapping:tryScrapVehicle", function()
-    if not canScrapVehicle() or IsPedInAnyVehicle(cache.ped or PlayerPedId()) then return end
+    local ped = cache.ped or PlayerPedId()
+    if not canScrapVehicle() or IsPedInAnyVehicle(ped) then return end
 
     isPlayerScrapping = true
-    exports["rpemotes"]:EmoteCommandStart("mechanic2")
 
-    local skillCheckKeys = {'W', 'A', 'S', 'D'}
+    local animDict = "mini@repair"
+    local animName = "fixing_a_player"
+    
+    lib.requestAnimDict(animDict)
+    TaskPlayAnim(ped, animDict, animName, 8.0, -8.0, -1, 1, 0, false, false, false)
+
+    local skillCheckKeys = {'w', 'a', 's', 'd'}
     local skillStages = {}
     for i=1, (Config.MinigameRequiredSuccesses or 3) do 
         table.insert(skillStages, {areaSize = 50, speedMultiplier = 0.8}) 
     end
 
-    if lib.skillCheck(skillStages, skillCheckKeys) then
-        local pCoords = GetEntityCoords(cache.ped or PlayerPedId())
+    local success = lib.skillCheck(skillStages, skillCheckKeys)
+    ClearPedTasks(ped)
+
+    if success then
+        local pCoords = GetEntityCoords(ped)
         local targetJob = nil
 
         for _, v in pairs(currentScrappingJobLocations) do
@@ -77,9 +86,8 @@ AddEventHandler("lxs-scrapping:tryScrapVehicle", function()
         if targetJob then
             TriggerServerEvent("lxs-scrapping:finishScrapping", targetJob)
             clearSpecificJob(targetJob)
-            exports["rpemotes"]:EmoteCancel()
 
-        if math.random(1, 100) <= Config.NotifyChance then 
+            if math.random(1, 100) <= Config.NotifyChance then 
                 local street = GetStreetNameFromHashKey(GetStreetNameAtCoord(pCoords.x, pCoords.y, pCoords.z))
                 TriggerServerEvent("lxs-scrapping:activateAlarm", pCoords, street)
                 
@@ -92,10 +100,9 @@ AddEventHandler("lxs-scrapping:tryScrapVehicle", function()
                     duration = 5000
                 })
             end
-         end
-        else
+        end
+    else
         isPlayerScrapping = false
-        exports["rpemotes"]:EmoteCancel()
         lib.notify({ title = "Failed", description = "You messed up the scrap process!", type = "error" })
     end
 end)

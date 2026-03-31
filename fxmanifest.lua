@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'LuxStudio'
 description 'Basic scrapping system for FiveM'
-version '1.1.0'
+version '1.1.1'
 
 shared_scripts {
     'config/cfg_locations.lua',
