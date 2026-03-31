@@ -1,6 +1,6 @@
 # LuxStudio Scrapping
 
-A modular, high-performance vehicle scrapping script for **qb-core/qbox** using **ox_lib**, **ox_target**, and **ox_inventory**.
+A modular, high-performance vehicle scrapping script for **qb-core/qbox** using **ox_lib**, **ox_target**
 
 Players obtain contracts to locate abandoned car wrecks across San Andreas, harvest valuable parts via skill checks, and sell them to shady bob.
 
@@ -10,10 +10,9 @@ Players obtain contracts to locate abandoned car wrecks across San Andreas, harv
 
 Ensure you have the following installed:
 
-- qbx_core (or qb-core)  
-- ox_lib  
-- ox_target  
-- ox_inventory  
+- qbx_core (or qb-core)
+- ox_lib
+- ox_target
 - rpemotes (or rpemotes-reborn)
 
 ---
@@ -23,6 +22,7 @@ Ensure you have the following installed:
 ### 1. Item Configuration
 
 Add the following to your `ox_inventory/data/items.lua`:
+Should be fairly similiar for other inventory types :p
 
 ```lua
 ['alternator'] = { label = 'Alternator', weight = 2000, stack = true, close = true },
@@ -45,4 +45,5 @@ Add the following to your `ox_inventory/data/items.lua`:
 ## 🛡️ Support
 
 If you need any support for anything, feel free to join my Discord!:
+
 - https://discord.gg/ZHwpYBXUPZ

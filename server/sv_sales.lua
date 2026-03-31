@@ -10,8 +10,7 @@ RegisterNetEvent("lxs-scrapping:openSellMenu", function()
 
     local sellableItems = {}
     for _, data in ipairs(Config.ScrappingItems) do
-        local item = exports.ox_inventory:GetItem(src, data.item, nil, false)
-        local count = item and item.count or 0
+        local count = GetItemCount(src, data.item)
 
         if count > 0 then
             table.insert(sellableItems, {
@@ -44,13 +43,13 @@ RegisterNetEvent("lxs-scrapping:sellVehiclePart", function(args)
     if itemData then
         local countToSell = tonumber(args.trySellCount) or 0
         
-        if countToSell > 0 and exports.ox_inventory:RemoveItem(src, args.name, countToSell) then
+        if countToSell > 0 and RemoveItem(src, args.name, countToSell) then
             local payoutAmount = math.floor(itemData.price * countToSell)
 
             if itemData.reward == "money" then
                 Player.Functions.AddMoney('cash', payoutAmount, "scrapping-sell")
             else
-                exports.ox_inventory:AddItem(src, itemData.reward, payoutAmount)
+                GiveItem(src, itemData.reward, payoutAmount, pCoords)
             end
             
             TriggerEvent("lxs-scrapping:openSellMenu", src) 
@@ -66,18 +65,19 @@ RegisterNetEvent("lxs-scrapping:sellAllParts", function()
     if not Player then return end
 
     local itemsRemoved = false
+    local pCoords = GetEntityCoords(GetPlayerPed(src)) 
 
     for _, data in ipairs(Config.ScrappingItems) do
-        local count = exports.ox_inventory:GetItemCount(src, data.item)
+        local count = GetItemCount(src, data.item)
         
         if count > 0 then
-            if exports.ox_inventory:RemoveItem(src, data.item, count) then
+            if RemoveItem(src, data.item, count) then
                 local totalValue = (data.price * count)
                 
                 if data.reward == "money" then
                     Player.Functions.AddMoney('cash', totalValue, "scrapping-sell-all")
                 else
-                    exports.ox_inventory:AddItem(src, data.reward, totalValue)
+                    GiveItem(src, data.reward, totalValue, pCoords)
                 end
                 itemsRemoved = true
             end
@@ -100,7 +100,7 @@ RegisterNetEvent("lxs-scrapping:openExchangeMenu", function()
 
     local exchangeableItems = {}
     for _, data in ipairs(Config.ScrappingItems) do
-        local count = exports.ox_inventory:GetItemCount(src, data.item)
+        local count = GetItemCount(src, data.item)
 
         if count > 0 then
             table.insert(exchangeableItems, {
@@ -125,19 +125,19 @@ RegisterNetEvent("lxs-scrapping:exchangePart", function(args)
     local countToExchange = tonumber(args.amount) or 0
 
     if rewardData and countToExchange > 0 then
-        if exports.ox_inventory:RemoveItem(src, args.name, countToExchange) then
+        if RemoveItem(src, args.name, countToExchange) then
             
             for i = 1, countToExchange do
                 for _, reward in ipairs(rewardData.returnItems) do
                     if math.random(1, 100) <= reward.chance then
                         local amount = math.random(reward.min, reward.max)
-                        exports.ox_inventory:AddItem(src, reward.item, amount)
+                        GiveItem(src, reward.item, amount, pCoords)
                     end
                 end
 
                 if rewardData.rareItemsExchange then
                     if math.random(1, 100) <= rewardData.rareItemsExchange.chance then
-                        exports.ox_inventory:AddItem(src, rewardData.rareItemsExchange.item, rewardData.rareItemsExchange.amount)
+                        GiveItem(src, rewardData.rareItemsExchange.item, rewardData.rareItemsExchange.amount, pCoords)
                     end
                 end
             end
@@ -156,22 +156,23 @@ RegisterNetEvent("lxs-scrapping:exchangeAllParts", function()
     if not Player then return end
 
     local itemsExchanged = false
+    local pCoords = GetEntityCoords(GetPlayerPed(src)) 
 
     for _, data in ipairs(Config.ScrappingItems) do
-        local count = exports.ox_inventory:GetItemCount(src, data.item)
+        local count = GetItemCount(src, data.item)
         local rewardData = Config.ExchangeRewards[data.item]
         
         if count > 0 and rewardData then
-            if exports.ox_inventory:RemoveItem(src, data.item, count) then
+            if RemoveItem(src, data.item, count) then
                 itemsExchanged = true
                 for i = 1, count do
                     for _, reward in ipairs(rewardData.returnItems) do
                         if math.random(1, 100) <= reward.chance then
-                            exports.ox_inventory:AddItem(src, reward.item, math.random(reward.min, reward.max))
+                            GiveItem(src, reward.item, math.random(reward.min, reward.max), pCoords)
                         end
                     end
                     if rewardData.rareItemsExchange and math.random(1, 100) <= rewardData.rareItemsExchange.chance then
-                        exports.ox_inventory:AddItem(src, rewardData.rareItemsExchange.item, rewardData.rareItemsExchange.amount)
+                        GiveItem(src, rewardData.rareItemsExchange.item, rewardData.rareItemsExchange.amount, pCoords)
                     end
                 end
             end

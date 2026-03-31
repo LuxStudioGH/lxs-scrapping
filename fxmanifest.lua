@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'LuxStudio'
 description 'Basic scrapping system for FiveM'
-version '1.0.0'
+version '1.1.0'
 
 shared_scripts {
     'config/cfg_locations.lua',
@@ -18,6 +18,7 @@ client_scripts {
 }
 
 server_scripts {
+    'server/sv_bridge.lua',
     'server/sv_utils.lua',
     'server/sv_*.lua'
 }

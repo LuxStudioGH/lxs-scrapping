@@ -3,7 +3,9 @@ Config.GetJobCooldown = 180 -- Default: 5 Minutes
 -- Set this between 0 and 100 (e.g., 5 = 5% chance)
 Config.NotifyChance = 5
 -- Amount of turns of the minigame until completation
-Config.MinigameRequiredSuccesses = 3 -- Default: 3 
+Config.MinigameRequiredSuccesses = 3 -- Default: 3
+-- Inventory system to use
+Config.InventorySystem= "ox" -- Supports: ox, qb, ps, custom
 -- Minimum amount of vehicle parts you can gain
 Config.MinimumItems = 2 -- Default: 2
 -- Maximum amount of vehicle parts you can gain
@@ -27,6 +29,7 @@ Config.Dispatch = {
         }
     }
 }
+
 -- Vehicle Blip Config
 Config.Blip = {
     Sprite = 402, -- Change the blip sprite (https://docs.fivem.net/docs/game-references/blips/)
@@ -37,48 +40,31 @@ Config.Blip = {
     Route = true -- Whether or not a mission line should be drawn to the blip
 }
 
-Config.InteractableModels = {
-    "prop_rub_carwreck_10",
-    "prop_rub_carwreck_11",
-    "prop_rub_carwreck_12",
-    "prop_rub_carwreck_13",
-    "prop_rub_carwreck_14",
-    "prop_rub_carwreck_15",
-    "prop_rub_carwreck_16",
-    "prop_rub_carwreck_17",
-    "prop_rub_carwreck_2",
-    "prop_rub_carwreck_3",
-    "prop_rub_carwreck_5",
-    "prop_rub_carwreck_7",
-    "prop_rub_carwreck_8",
-    "prop_rub_carwreck_9"
-}
-
 -- Items alongside main ScrappingItems
 Config.RareItemEnabled = true -- Use rare items (bonus items), Default: True 
 Config.RareItemChance = 5 -- 5% chance to give rare items
 Config.RareItems = {
-    { item = "electronickit", min = 1, max = 1, weight = 5 },
-    { item = "fakeplate", min = 1, max = 2, weight = 1 },
-    { item = "metalscrap", min = 28, max = 32, weight = 50 },
-    { item = "metalscrap", min = 12, max = 33, weight = 50 },
+    { item = "electronickit", min = 1, max = 1, chance = 5 },
+    { item = "fakeplate", min = 1, max = 2, chance = 1 },
+    { item = "metalscrap", min = 28, max = 32, chance = 50 },
+    { item = "metalscrap", min = 12, max = 33, chance = 50 },
 }
 
 -- Main item pool
 Config.ScrappingItems = { -- Reward accepts "money", anything else is treated as an item. (E.G: black_money)
-    { item = "tyre",          price = 400,  reward = "black_money",  weight = 80, min = 1, max = 4 }, 
-    { item = "brakes",        price = 400,  reward = "black_money",  weight = 70, min = 1, max = 4 }, 
-    { item = "headlights",    price = 500,  reward = "black_money",  weight = 60, min = 1, max = 2 },
-    { item = "battery",       price = 500,  reward = "black_money",  weight = 60, min = 1, max = 1 },
-    { item = "windscreen",    price = 600,  reward = "black_money",  weight = 50, min = 1, max = 1 },
-    { item = "radiator",      price = 600,  reward = "black_money",  weight = 45, min = 1, max = 1 },
-    { item = "alternator",    price = 700,  reward = "black_money",  weight = 40, min = 1, max = 1 },
-    { item = "steeringwheel", price = 600,  reward = "black_money",  weight = 35, min = 1, max = 1 },
-    { item = "fueltank",      price = 800,  reward = "black_money",  weight = 30, min = 1, max = 1 },
-    { item = "foglights",     price = 400,  reward = "black_money",  weight = 30, min = 1, max = 2 }, 
-    { item = "suspension",    price = 1200, reward = "black_money",  weight = 25, min = 1, max = 2 },
-    { item = "transmission",  price = 3000, reward = "black_money",  weight = 15, min = 1, max = 1 },
-    { item = "engine",        price = 5500, reward = "black_money",  weight = 8,  min = 1, max = 1 }, 
+    { item = "tyre",          price = 400,  reward = "black_money",  chance = 80, min = 1, max = 4 }, 
+    { item = "brakes",        price = 400,  reward = "black_money",  chance = 70, min = 1, max = 4 }, 
+    { item = "headlights",    price = 500,  reward = "black_money",  chance = 60, min = 1, max = 2 },
+    { item = "battery",       price = 500,  reward = "black_money",  chance = 60, min = 1, max = 1 },
+    { item = "windscreen",    price = 600,  reward = "black_money",  chance = 50, min = 1, max = 1 },
+    { item = "radiator",      price = 600,  reward = "black_money",  chance = 45, min = 1, max = 1 },
+    { item = "alternator",    price = 700,  reward = "black_money",  chance = 40, min = 1, max = 1 },
+    { item = "steeringwheel", price = 600,  reward = "black_money",  chance = 35, min = 1, max = 1 },
+    { item = "fueltank",      price = 800,  reward = "black_money",  chance = 30, min = 1, max = 1 },
+    { item = "foglights",     price = 400,  reward = "black_money",  chance = 30, min = 1, max = 2 }, 
+    { item = "suspension",    price = 1200, reward = "black_money",  chance = 25, min = 1, max = 2 },
+    { item = "transmission",  price = 3000, reward = "black_money",  chance = 15, min = 1, max = 1 },
+    { item = "engine",        price = 5500, reward = "black_money",  chance = 8,  min = 1, max = 1 }, 
 }
 
 -- Exchanger rewards
@@ -180,4 +166,22 @@ Config.ExchangeRewards = {
         },
         rareItemsExchange = nil 
     }
+}
+
+-- Below doesn't need to be touched, so...
+Config.InteractableModels = {
+    "prop_rub_carwreck_10",
+    "prop_rub_carwreck_11",
+    "prop_rub_carwreck_12",
+    "prop_rub_carwreck_13",
+    "prop_rub_carwreck_14",
+    "prop_rub_carwreck_15",
+    "prop_rub_carwreck_16",
+    "prop_rub_carwreck_17",
+    "prop_rub_carwreck_2",
+    "prop_rub_carwreck_3",
+    "prop_rub_carwreck_5",
+    "prop_rub_carwreck_7",
+    "prop_rub_carwreck_8",
+    "prop_rub_carwreck_9"
 }

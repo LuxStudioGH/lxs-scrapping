@@ -68,39 +68,24 @@ RegisterNetEvent("lxs-scrapping:finishScrapping", function(coords)
 
     if not isNearWreck then return end
 
-        local function giveItem(itemName, itemAmount)
+    local function giveItem(itemName, itemAmount)
         if not isItemValid(itemName) then
             -- TODO: Add log here?
             return 
         end
-        if exports.ox_inventory then
-            local success = exports.ox_inventory:AddItem(src, itemName, itemAmount)
-            
-            if not success then
-                exports.ox_inventory:CustomDrop("Salvaged Parts", {
-                    {itemName, itemAmount}
-                }, pCoords)
-
-                TriggerClientEvent('ox_lib:notify', src, {
-                    title = 'Inventory Full',
-                    description = ('You dropped %s x%s on the ground.'):format(itemName, itemAmount),
-                    type = 'error',
-                    position = 'top'
-                })
-            end
-        end
+        GiveItem(src, itemName, itemAmount, pCoords)
     end
 
     local rollCount = math.random(Config.MinimumItems, Config.MaximumItems)
     for i = 1, rollCount do
-        local totalWeight = 0
-        for _, v in ipairs(Config.ScrappingItems) do totalWeight = totalWeight + v.weight end
+        local totalchance = 0
+        for _, v in ipairs(Config.ScrappingItems) do totalchance = totalchance + v.chance end
 
-        local roll = math.random(1, totalWeight)
+        local roll = math.random(1, totalchance)
         local counter = 0
 
         for _, loot in ipairs(Config.ScrappingItems) do
-            counter = counter + loot.weight
+            counter = counter + loot.chance
             if roll <= counter then
                 giveItem(loot.item, math.random(loot.min, loot.max))
                 break 
@@ -109,14 +94,14 @@ RegisterNetEvent("lxs-scrapping:finishScrapping", function(coords)
     end
 
     if Config.RareItemEnabled and math.random(1, 100) <= Config.RareItemChance then
-        local rareWeight = 0
-        for _, v in ipairs(Config.RareItems) do rareWeight = rareWeight + v.weight end
+        local rarechance = 0
+        for _, v in ipairs(Config.RareItems) do rarechance = rarechance + v.chance end
 
-        local rareRoll = math.random(1, rareWeight)
+        local rareRoll = math.random(1, rarechance)
         local rareCounter = 0
 
         for _, rareLoot in ipairs(Config.RareItems) do
-            rareCounter = rareCounter + rareLoot.weight
+            rareCounter = rareCounter + rareLoot.chance
             if rareRoll <= rareCounter then
                 giveItem(rareLoot.item, math.random(rareLoot.min, rareLoot.max))
                 break 
