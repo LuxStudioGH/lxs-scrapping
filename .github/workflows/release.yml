@@ -1,0 +1,39 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run Release Please
+        uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+
+      - name: Create Zip
+        if: ${{ steps.release.outputs.release_created }}
+        run: |
+          zip -r "${{ github.event.repository.name }}-${{ github.ref_name }}.zip" . \
+            -x ".git/*" \
+            -x ".github/*"
+
+      - name: Upload Asset
+        if: ${{ steps.release.outputs.release_created }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.release.outputs.tag_name }}
+          files: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
