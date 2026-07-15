@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/LuxStudioGH/lxs-scrapping/compare/v1.1.0...v1.2.0) (2026-07-15)
+
+
+### Features
+
+* add tk_dispatch ([7ea3971](https://github.com/LuxStudioGH/lxs-scrapping/commit/7ea3971655c72392ca5a0399254e2f58bd88ba0c))
+
 ## [1.1.0](https://github.com/LuxStudioGH/lxs-scrapping/compare/v1.0.0...v1.1.0) (2026-06-13)
 
 
