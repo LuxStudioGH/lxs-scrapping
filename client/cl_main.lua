@@ -108,7 +108,7 @@ AddEventHandler("lxs-scrapping:tryScrapVehicle", function()
 end)
 
 -- Many dispatch systems..
--- Only cd & ps are tested 🤞
+-- Only cd & ps & tk are tested 🤞
 RegisterNetEvent("lxs-scrapping:client:activateAlarm", function(coords)
     local data = Config.Dispatch["scrapping"]
     if not data then return end
@@ -117,7 +117,25 @@ RegisterNetEvent("lxs-scrapping:client:activateAlarm", function(coords)
     local street = GetStreetNameFromHashKey(s1)
     local message = data.message .. " on " .. street
 
-    if Config.DispatchSystem == 'ps-dispatch' then
+    if Config.DispatchSystem == 'tk_dispatch' then
+        exports.tk_dispatch:addCall({
+            title = data.title,
+            code = data.code,
+            priority = 'Priority 2',
+            message = message,
+            coords = coords,
+            showLocation = true,
+            showGender = true,
+            playSound = true,
+            jobs = data.jobs,
+            blip = {
+                sprite = data.blip.sprite,
+                scale = data.blip.scale,
+                color = data.blip.color,
+            }
+        })
+
+    elseif Config.DispatchSystem == 'ps-dispatch' then
         exports["ps-dispatch"]:CustomAlert({
             coords = coords,
             message = message,
